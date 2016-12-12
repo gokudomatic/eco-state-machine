@@ -27,7 +27,7 @@ They must be declared before making a link between them.
 ## Groups
 States can be regrouped in groups. Those groups can have conditional links to a state too. If a condition of a group whithin which the current state is located, the transition is made regardless the conditions of the current state.
 It is possible to imbricate groups in other groups, without limit of depth.
-Groups can have attributes and a custom timer, like states.
+Groups can have attributes like states.
 Groups must be declared before they can be used.
 
 ## Priorities
@@ -36,7 +36,7 @@ The priority is automatically set in the same order of creation of the links. Li
 
 ## Timers
 There a 2 kinds of timers: one automatically started when there's a change of state, and custom timers. The custom timers are defined with a name. Their typical usage is for groups, where it's sometimes whished to make a condition on the time passed since the group is entered.
-Custom timers can be used by states and groups by adding them in their constructor.
+Custom timers can be used by states and groups by adding them in the links.
 Timers must be declared before they can be used.
 
 There isn't actually any timer created in this script. The method "process(delta)" simply add to every declared timer the delta time and evaluated all conditions of the current state. Delta is a float parameter in seconds, typically given by _process or _fixed_process. But delta can be 0 or any numeric value if you don't want to use the machine in a _process.
@@ -105,7 +105,7 @@ Turret bot, with a group and a timeout reset. The turret attacks target whenever
 extends Node
 onready var fsm=preload("fsm.gd")
     fsm.add_timer("functional-timer")
-    fsm.add_group("functional",null,null,"functional-timer")
+    fsm.add_group("functional")
     fsm.add_state("idle",null,"functional")
     fsm.add_state("shoot",null,"functional")
     fsm.add_state("off")

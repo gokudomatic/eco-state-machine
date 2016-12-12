@@ -41,12 +41,12 @@ Timers must be declared before they can be used.
 ### Example 1
 Let's consider a simple case of 2 states "a" and "b", where the machine switch from one state to the other every 3 seconds.
 The code for the node that uses the machine would be like this:
+```
+extends Node
 
-  extends Node
+var fsm
 
-  var fsm
-
-  func _onready():
+func _onready():
     fsm=preload("fsm.gd")
     fsm.add_state("a")
     fsm.add_state("b")
@@ -56,9 +56,9 @@ The code for the node that uses the machine would be like this:
     
     set_process(true)
 
-  func _process(delta):
+func _process(delta):
     fsm.process(delta)
 
-  func on_state_changed(state_from,state_to,args):
+func on_state_changed(state_from,state_to,args):
     print("switched to state ",state_to)
-
+```

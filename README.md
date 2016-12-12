@@ -52,6 +52,7 @@ func _onready():
     fsm.add_state("b")
     fsm.add_link("a","b","timeout",[3])
     fsm.add_link("b","a","timeout",[3])
+    fsm.set_state("a")
     fsm.connect("state_changed",self,"on_state_changed")
     
     set_process(true)

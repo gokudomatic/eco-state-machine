@@ -98,12 +98,47 @@ func on_state_changed(state_from,state_to,args):
         var score=1 # code to execute for the right answer
 
 ```
-
 ### Example 3
+Example of a computer power management, slowly deactivating features and finally going to hibernation.
+```
+extends Node
+onready var fsm=preload("fsm.gd")
+
+func _ready():
+    fsm.add_group("active")
+    fsm.add_group("on battery",null,"active")
+    fsm.add_state("hibernate")
+    fsm.add_state("normal",null,"on battery")
+    fsm.add_state("dim light",null,"on battery")
+    fsm.add_state("screen off",null,"on battery")
+    fsm.add_state("sleep",null,"on battery")
+    fsm.add_state("charge",null,"active")
+    
+    fsm.add_link("on battery","charge","condition",[self,"is_charging","true"])
+    fsm.add_link("charge","normal","condition",[self,"is_charging","false"])
+    
+    fsm.add_link("on battery","dim light","condition",[self,"battery_state","average"])
+    fsm.add_link("on battery","screen off","condition",[self,"battery_state","low"])
+    fsm.add_link("on battery","sleep","condition",[self,"battery_state","very low"])
+    fsm.add_link("on battery","hibernate","condition",[self,"battery_state","critical"])
+    
+    fsm.add_link("active","hibernate","condition",[self,"power","off"])
+    fsm.add_link("hibernate","normal","condition",[self,"power","on"])
+    
+    fsm.set_state("normal")
+    fsm.connect("state_changed",self,"on_state_changed")
+
+...
+
+```
+
+### Example 4
 Turret bot, with a group and a timeout reset. The turret attacks target whenever it's in sight, and stops shooting after 5 seconds. The turret can be hit and be destroyed at any time. The turret shuts down automatically after 30 seconds.
 ```
 extends Node
 onready var fsm=preload("fsm.gd")
+
+func _ready():
     fsm.add_timer("functional-timer")
     fsm.add_group("functional")
     fsm.add_state("idle",null,"functional")

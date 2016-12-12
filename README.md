@@ -104,7 +104,8 @@ Turret bot, with a group and a timeout reset. The turret attacks target whenever
 ```
 extends Node
 onready var fsm=preload("fsm.gd")
-    fsm.add_group("functional")
+    fsm.add_timer("functional-timer")
+    fsm.add_group("functional",null,null,"functional-timer")
     fsm.add_state("idle",null,"functional")
     fsm.add_state("shoot",null,"functional")
     fsm.add_state("off")
@@ -112,7 +113,7 @@ onready var fsm=preload("fsm.gd")
     fsm.add_link("functional","destroyed","condition",[self,"is_alive",false])
     fsm.add_link("idle","shoot","condition",[self,"is_target_on_sight"])
     fsm.add_link("shoot","idle","timeout",[5])
-    fsm.add_link("functional","off","timeout",[30])
+    fsm.add_link("functional","off","timeout",[30,"functional-timer"])
     fsm.set_state("idle")
     fsm.connect("state_changed",self,"on_state_changed")
     

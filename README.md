@@ -47,7 +47,7 @@ extends Node
 
 var fsm
 
-func _onready():
+func _ready():
     fsm=preload("fsm.gd")
     fsm.add_state("a")
     fsm.add_state("b")
@@ -66,13 +66,13 @@ func on_state_changed(state_from,state_to,args):
 ```
 
 ### Example 2
-Classical case of a simple quizz, where the machine is updated when the player enters an answer:
+A simple quizz, where the machine is updated when the player enters an answer:
 ```
 extends Node
 onready var fsm=preload("fsm.gd")
 var player_answer=""
 
-func _onready():
+func _ready():
     fsm.add_state("question")
     fsm.add_state("right answer",{text:"You got it right!"})
     fsm.add_state("wrong answer",{text:"Wrong! Try another time."})
@@ -92,5 +92,31 @@ func on_state_changed(state_from,state_to,args):
     print(args.text)
     if state_to=="right answer":
         var score=1 # code to execute for the right answer
+
+```
+
+### Example 3
+Turret bot, with a group and a timeout reset. The turret attacks target whenever it's in sight, and stops shooting after 5 seconds. The turret can be hit and be destroyed at any time. The turret shuts down automatically after 30 seconds.
+```
+extends Node
+onready var fsm=preload("fsm.gd")
+    fsm.add_group("functional")
+    fsm.add_state("idle",null,"functional")
+    fsm.add_state("shoot",null,"functional")
+    fsm.add_state("off")
+    fsm.add_state("destroyed")
+    fsm.add_link("functional","destroyed","condition",[self,"is_alive",false])
+    fsm.add_link("idle","shoot","condition",[self,"is_target_on_sight"])
+    fsm.add_link("shoot","idle","timeout",[5])
+    fsm.add_link("functional","off","timeout",[30])
+    fsm.set_state("idle")
+    fsm.connect("state_changed",self,"on_state_changed")
+    
+    set_process(true)
+
+func _process(delta):
+    fsm.process(delta)
+
+...
 
 ```

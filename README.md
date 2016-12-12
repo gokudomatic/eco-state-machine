@@ -127,6 +127,11 @@ func _ready():
     
     fsm.set_state("normal")
     fsm.connect("state_changed",self,"on_state_changed")
+    
+    set_process(true)
+
+func _process(delta):
+    fsm.process(delta)
 
 ...
 

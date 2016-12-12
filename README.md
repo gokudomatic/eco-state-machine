@@ -2,6 +2,7 @@
 Finite State Machine script for Godot Engine
 
 This component is a standalone script with no dependency. It is compatible with every Godot version that supports signals and vcall.
+It allows to make moderatly complex machines, with attributes, timers and groups. Conditions are custom defined with dynamic method calls. When a transition happens, wether it was manual or automatic, a signal is sent, which allows to execute code for specific transitions.
 
 ## Conditional links
 This component features a state machine that can handle states and conditional links between them. It is possible to manually set a state or to let the machine determine is there's a state change (by calling its method "process(delta)").
@@ -12,6 +13,8 @@ and it is possible to combine a condition and a timer:
 * timed condition : do the transition only if the condition is filled AND the timer is out.
 It is possible to define multiple conditions for the same link, by simply adding more links between the same states. It will then act like a logical "OR".
 Timers are either the time passed since the last state change or a custom defined timer. 
+
+When a transition of a link happens, a signal "state_changed" is sent. It contains the informations about from which state to which state it moved. And a list of attributes is given in parameter too. This list is the concatenation of the attributes of the state and all imbricated groups the state belongs to. Since attributes are a dictionnary, each attribute has a name, and a state or subgroup can overwrite an attribute of a higher group. Attributes are however defined only once and they are constants.
 
 ## States
 States are merely objects with a name and attributes. 
@@ -31,3 +34,6 @@ The priority is automatically set in the same order of creation of the links. Li
 There a 2 kinds of timers: one automatically started when there's a change of state, and custom timers. The custom timers are defined with a name. Their typical usage is for groups, where it's sometimes whished to make a condition on the time passed since the group is entered.
 Custom timers can be used by states and groups by adding them in their constructor.
 Timers must be declared before they can be used.
+
+
+## Examples

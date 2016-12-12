@@ -133,7 +133,10 @@ func _ready():
 
 func _process(delta):
     fsm.process(delta)
-    battery_level-=delta/60 # consume 1% of battery every minute
+    if is_charging():
+        battery_level+=delta # recharge 1% every second
+    else:
+        battery_level-=delta/60 # consume 1% of battery every minute
 
 func battery_state():
     if battery_level<5:

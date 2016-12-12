@@ -103,6 +103,7 @@ Example of a computer power management, slowly deactivating features and finally
 ```
 extends Node
 onready var fsm=preload("fsm.gd")
+var battery_level=100
 
 func _ready():
     fsm.add_group("active")
@@ -132,6 +133,7 @@ func _ready():
 
 func _process(delta):
     fsm.process(delta)
+    battery_level-=delta/60 # consume 1% of battery every minute
 
 func battery_state():
     if battery_level<5:

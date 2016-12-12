@@ -6,7 +6,7 @@ It allows to make moderatly complex machines, with attributes, timers and groups
 
 The machine is not meant to be extended but rather instanciated. By itself it doesn't manage parallel state machines, but nothing prevents to set multiple machines and have a manager who make them communicate.
 
-Performance wise, this component is a gdscript and it won't be as fast as a FSM implemented in C++. But it's simple to use, no dependency to any version and it gets the flexibility of gdscript.
+Performance wise, this component is a gdscript and it won't be as fast as a FSM implemented in C++. But it's simple to use, powerful enough for complex programming, no dependency to any version and it gets the flexibility of gdscript.
 
 ## Conditional links
 This component features a state machine that can handle states and conditional links between them. It is possible to manually set a state or to let the machine determine is there's a state change (by calling its method "process(delta)").

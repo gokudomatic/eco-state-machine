@@ -133,6 +133,18 @@ func _ready():
 func _process(delta):
     fsm.process(delta)
 
+func battery_state():
+    if battery_level<5:
+        return "critical"
+    elif battery_level<10:
+        return "very low"
+    elif battery_level<25:
+        return "low"
+    elif battery_level<50:
+        return "average"
+    else:
+        return "normal"
+
 ...
 
 ```

@@ -35,6 +35,7 @@ There a 2 kinds of timers: one automatically started when there's a change of st
 Custom timers can be used by states and groups by adding them in their constructor.
 Timers must be declared before they can be used.
 
+There isn't actually any timer created in this script. The method "process(delta)" simply add to every declared timer the delta time and evaluated all conditions of the current state. Delta is a float parameter in seconds, typically given by _process or _fixed_process. But delta can be 0 or any numeric value if you don't want to use the machine in a _process.
 
 ## Examples
 
@@ -62,4 +63,34 @@ func _process(delta):
 
 func on_state_changed(state_from,state_to,args):
     print("switched to state ",state_to)
+```
+
+### Example 2
+Classical case of a simple quizz, where the machine is updated when the player enters an answer:
+```
+extends Node
+onready var fsm=preload("fsm.gd")
+var player_answer=""
+
+func _onready():
+    fsm.add_state("question")
+    fsm.add_state("right answer",{text:"You got it right!"})
+    fsm.add_state("wrong answer",{text:"Wrong! Try another time."})
+    fsm.add_link("question","right answer","condition",[self,"check_reply",true])
+    fsm.add_link("question","wrong answer","condition",[self,"check_reply",false])
+    fsm.set_state("question")
+    fsm.connect("state_changed",self,"on_state_changed")
+
+func enter_answer(answer):
+    player_answer=answer
+    fsm.process(0)
+
+func check_reply():
+    return player_answer=="sesame"
+
+func on_state_changed(state_from,state_to,args):
+    print(args.text)
+    if state_to=="right answer":
+        var score=1 # code to execute for the right answer
+
 ```

@@ -29,7 +29,7 @@ var links=[]
 
 signal state_changed(state_from,state_to,params)
 
-func process(delta):
+func process(delta=0):
 	if current_state==null or current_state_object==null or links.size()==0:
 		return
 	

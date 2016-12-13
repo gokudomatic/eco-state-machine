@@ -156,6 +156,9 @@ func battery_state():
 
 ### Example 4
 Turret bot, with a group and a timeout reset. The turret attacks target whenever it's in sight, and stops shooting after 5 seconds. The turret can be hit and be destroyed at any time. The turret shuts down automatically after 30 seconds.
+
+![example 4](/eco-state-machine-example4.png)
+
 ```
 extends Node
 onready var fsm=preload("fsm.gd")

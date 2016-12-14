@@ -18,6 +18,7 @@ If a condition is given, it can be of 2 kinds :
 * timeout : do the transition after a certain time.
 and it is possible to combine a condition and a timer:
 * timed condition : do the transition only if the condition is filled AND the timer is out.
+
 It is possible to define multiple conditions for the same link, by simply adding more links between the same states. It will then act like a logical "OR".
 Timers are either the time passed since the last state change or a custom defined timer. 
 

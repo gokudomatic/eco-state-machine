@@ -71,6 +71,7 @@ func on_state_changed(state_from,state_to,args):
 
 ### Example 2
 A simple quizz, where the machine is updated when the player enters an answer:
+![example 2](/eco-state-machine-example2.png)
 ```
 extends Node
 onready var fsm=preload("fsm.gd")

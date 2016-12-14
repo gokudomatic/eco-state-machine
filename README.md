@@ -8,6 +8,7 @@ The machine is not meant to be extended but rather instanciated. By itself it do
 
 Performance wise, this component is a gdscript and it won't be as fast as a FSM implemented in C++. But it's simple to use, powerful enough for complex programming, no dependency to any version and it gets the flexibility of gdscript.
 
+This is the kind of complexity you can achieve with this component:
 ![structure](/eco-state-machine-structure.png)
 
 ## Conditional links

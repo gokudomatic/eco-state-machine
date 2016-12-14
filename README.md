@@ -11,22 +11,14 @@ Performance wise, this component is a gdscript and it won't be as fast as a FSM 
 This is the kind of complexity you can achieve with this component:
 ![structure](/eco-state-machine-structure.png)
 
-## Conditional links
-This component features a state machine that can handle states and conditional links between them. It is possible to manually set a state or to let the machine determine is there's a state change (by calling its method "process(delta)").
-If a condition is given, it can be of 2 kinds : 
-* condition : calls a method of a node and compare it with an expected value.
-* timeout : do the transition after a certain time.
-and it is possible to combine a condition and a timer:
-* timed condition : do the transition only if the condition is filled AND the timer is out.
-
-It is possible to define multiple conditions for the same link, by simply adding more links between the same states. It will then act like a logical "OR".
-Timers are either the time passed since the last state change or a custom defined timer. 
-
-When a transition of a link happens, a signal "state_changed" is sent. It contains the informations about from which state to which state it moved. And a list of attributes is given in parameter too. This list is the concatenation of the attributes of the state and all imbricated groups the state belongs to. Since attributes are a dictionnary, each attribute has a name, and a state or subgroup can overwrite an attribute of a higher group. Attributes are however defined only once and they are constants.
 
 ## States
 States are merely objects with a name and attributes. 
 They must be declared before making a link between them.
+Code:
+```
+instance.add_state(state_name,parameters=null,parent_group=null)
+```
 
 ## Groups
 States can be regrouped in groups. Those groups can have conditional links to a state too. If a condition of a group whithin which the current state is located, the transition is made regardless the conditions of the current state.
@@ -44,6 +36,20 @@ Custom timers can be used by states and groups by adding them in the links.
 Timers must be declared before they can be used.
 
 There isn't actually any timer created in this script. The method "process(delta)" simply add to every declared timer the delta time and evaluated all conditions of the current state. Delta is a float parameter in seconds, typically given by _process or _fixed_process. But delta can be 0 or any numeric value if you don't want to use the machine in a _process.
+
+## Conditional links
+This component features a state machine that can handle states and conditional links between them. It is possible to manually set a state or to let the machine determine is there's a state change (by calling its method "process(delta)").
+If a condition is given, it can be of 2 kinds : 
+* condition : calls a method of a node and compare it with an expected value.
+* timeout : do the transition after a certain time.
+and it is possible to combine a condition and a timer:
+* timed condition : do the transition only if the condition is filled AND the timer is out.
+
+It is possible to define multiple conditions for the same link, by simply adding more links between the same states. It will then act like a logical "OR".
+Timers are either the time passed since the last state change or a custom defined timer. 
+
+When a transition of a link happens, a signal "state_changed" is sent. It contains the informations about from which state to which state it moved. And a list of attributes is given in parameter too. This list is the concatenation of the attributes of the state and all imbricated groups the state belongs to. Since attributes are a dictionnary, each attribute has a name, and a state or subgroup can overwrite an attribute of a higher group. Attributes are however defined only once and they are constants.
+
 
 ## Examples
 

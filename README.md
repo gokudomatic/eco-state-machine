@@ -100,6 +100,7 @@ func on_state_changed(state_from,state_to,args):
 ```
 ### Example 3
 Example of a computer power management, slowly deactivating features and finally going to hibernation.
+![example 3](/eco-state-machine-example3.png)
 ```
 extends Node
 onready var fsm=preload("fsm.gd")

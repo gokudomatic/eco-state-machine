@@ -15,9 +15,10 @@ This is the kind of complexity you can achieve with this component:
 ## States
 States are merely objects with a name and attributes. 
 They must be declared before making a link between them.
+
 Code:
 ```
-instance.add_state(state_name,parameters=null,parent_group=null)
+add_state(state_name,parameters=null,parent_group_name=null)
 ```
 
 ## Groups
@@ -25,6 +26,11 @@ States can be regrouped in groups. Those groups can have conditional links to a 
 It is possible to imbricate groups in other groups, without limit of depth.
 Groups can have attributes like states.
 Groups must be declared before they can be used.
+
+Code:
+```
+add_group(group_name,parameters=null,parent_group=null)
+```
 
 ## Priorities
 If two or more conditions are fulfilled at the same time, the link with highest priority will be used for the transition.
@@ -36,6 +42,11 @@ Custom timers can be used by states and groups by adding them in the links.
 Timers must be declared before they can be used.
 
 There isn't actually any timer created in this script. The method "process(delta)" simply add to every declared timer the delta time and evaluated all conditions of the current state. Delta is a float parameter in seconds, typically given by _process or _fixed_process. But delta can be 0 or any numeric value if you don't want to use the machine in a _process.
+
+Code:
+```
+add_timer(timer_name)
+```
 
 ## Conditional links
 This component features a state machine that can handle states and conditional links between them. It is possible to manually set a state or to let the machine determine is there's a state change (by calling its method "process(delta)").
@@ -49,6 +60,11 @@ It is possible to define multiple conditions for the same link, by simply adding
 Timers are either the time passed since the last state change or a custom defined timer. 
 
 When a transition of a link happens, a signal "state_changed" is sent. It contains the informations about from which state to which state it moved. And a list of attributes is given in parameter too. This list is the concatenation of the attributes of the state and all imbricated groups the state belongs to. Since attributes are a dictionnary, each attribute has a name, and a state or subgroup can overwrite an attribute of a higher group. Attributes are however defined only once and they are constants.
+
+Code:
+```
+add_link(origin_state_name,destination_state_name,condition_type,parameters)
+```
 
 
 ## Examples

@@ -8,6 +8,8 @@ The machine is not meant to be extended but rather instanciated. By itself it do
 
 Performance wise, this component is a gdscript and it won't be as fast as a FSM implemented in C++. But it's simple to use, powerful enough for complex programming, no dependency to any version and it gets the flexibility of gdscript.
 
+![structure](/eco-state-machine-structure.png)
+
 ## Conditional links
 This component features a state machine that can handle states and conditional links between them. It is possible to manually set a state or to let the machine determine is there's a state change (by calling its method "process(delta)").
 If a condition is given, it can be of 2 kinds : 

@@ -18,7 +18,7 @@ They must be declared before making a link between them.
 
 Code:
 ```python
-add_state(state_name,parameters=null,parent_group_name=null)
+add_state(state_name,attributes=null,parent_group_name=null)
 ```
 
 ## Groups
@@ -29,7 +29,7 @@ Groups must be declared before they can be used.
 
 Code:
 ```python
-add_group(group_name,parameters=null,parent_group=null)
+add_group(group_name,attributes=null,parent_group=null)
 ```
 
 ## Priorities

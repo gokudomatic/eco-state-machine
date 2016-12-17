@@ -132,6 +132,7 @@ Example of a computer power management, slowly deactivating features and finally
 extends Node
 onready var fsm=preload("fsm.gd").new()
 var battery_level=100
+var power=true
 
 func _ready():
     fsm.add_group("active")
@@ -151,8 +152,8 @@ func _ready():
     fsm.add_link("on battery","sleep","condition",[self,"battery_state","very low"])
     fsm.add_link("on battery","hibernate","condition",[self,"battery_state","critical"])
     
-    fsm.add_link("active","hibernate","condition",[self,"power","off"])
-    fsm.add_link("hibernate","normal","condition",[self,"power","on"])
+    fsm.add_link("active","hibernate","condition",[self,"check_power","off"])
+    fsm.add_link("hibernate","normal","condition",[self,"check_power","on"])
     
     fsm.set_state("normal")
     fsm.connect("state_changed",self,"on_state_changed")
@@ -164,7 +165,8 @@ func _process(delta):
     if is_charging():
         battery_level+=delta # recharge 1% every second
     else:
-        battery_level-=delta/60 # consume 1% of battery every minute
+        if power:
+            battery_level-=delta/60 # consume 1% of battery every minute
 
 func battery_state():
     if battery_level<5:
@@ -178,6 +180,16 @@ func battery_state():
     else:
         return "normal"
 
+func check_power():
+    if power:
+        return "on"
+    else:
+        return "off"
+
+func is_charging():
+    return charging
+
+func on_state_changed(state_from,state_to,args):
 ...
 
 ```

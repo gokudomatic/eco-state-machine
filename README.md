@@ -105,8 +105,8 @@ var player_answer=""
 
 func _ready():
     fsm.add_state("question")
-    fsm.add_state("right answer",{text:"You got it right!"})
-    fsm.add_state("wrong answer",{text:"Wrong! Try another time."})
+    fsm.add_state("right answer",{'text':"You got it right!"})
+    fsm.add_state("wrong answer",{'text':"Wrong! Try another time."})
     fsm.add_link("question","right answer","condition",[self,"check_reply",true])
     fsm.add_link("question","wrong answer","condition",[self,"check_reply",false])
     fsm.set_state("question")

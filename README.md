@@ -132,6 +132,7 @@ Example of a computer power management, slowly deactivating features and finally
 extends Node
 onready var fsm=preload("fsm.gd").new()
 var battery_level=100
+var charging=false
 var power=true
 
 func _ready():

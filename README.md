@@ -143,8 +143,8 @@ func _ready():
     fsm.add_state("sleep",null,"on battery")
     fsm.add_state("charge",null,"active")
     
-    fsm.add_link("on battery","charge","condition",[self,"is_charging","true"])
-    fsm.add_link("charge","normal","condition",[self,"is_charging","false"])
+    fsm.add_link("on battery","charge","condition",[self,"is_charging",true])
+    fsm.add_link("charge","normal","condition",[self,"is_charging",false])
     
     fsm.add_link("on battery","dim light","condition",[self,"battery_state","average"])
     fsm.add_link("on battery","screen off","condition",[self,"battery_state","low"])

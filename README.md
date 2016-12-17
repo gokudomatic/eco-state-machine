@@ -78,7 +78,7 @@ extends Node
 var fsm
 
 func _ready():
-    fsm=preload("fsm.gd")
+    fsm=preload("fsm.gd").new()
     fsm.add_state("a")
     fsm.add_state("b")
     fsm.add_link("a","b","timeout",[3])
@@ -100,7 +100,7 @@ A simple quizz, where the machine is updated when the player enters an answer:
 ![example 2](/eco-state-machine-example2.png)
 ```
 extends Node
-onready var fsm=preload("fsm.gd")
+onready var fsm=preload("fsm.gd").new()
 var player_answer=""
 
 func _ready():
@@ -130,7 +130,7 @@ Example of a computer power management, slowly deactivating features and finally
 ![example 3](/eco-state-machine-example3.png)
 ```
 extends Node
-onready var fsm=preload("fsm.gd")
+onready var fsm=preload("fsm.gd").new()
 var battery_level=100
 
 func _ready():
@@ -189,7 +189,7 @@ Turret bot, with a group and a timeout reset. The turret attacks target whenever
 
 ```
 extends Node
-onready var fsm=preload("fsm.gd")
+onready var fsm=preload("fsm.gd").new()
 
 func _ready():
     fsm.add_timer("functional-timer")

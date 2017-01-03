@@ -67,11 +67,11 @@ func get_groups_attributes():
 	var attributes
 	if current_state_object.parent!=null:
 		attributes=get_group_attributes(current_state_object.parent)
-		if current_state_object.attributes!=null:
-			for a in current_state_object.attributes.keys():
-				attributes[a]=current_state_object.attributes[a]
 	else:
-		attributes=current_state_object.attributes
+		attributes={}
+	if current_state_object.attributes!=null:
+		for a in current_state_object.attributes.keys():
+			attributes[a]=current_state_object.attributes[a]
 	return attributes
 
 func get_group_attributes(group_name):
@@ -79,15 +79,12 @@ func get_group_attributes(group_name):
 	var g=groups[group_name]
 	if g.parent!=null:
 		attributes=get_group_attributes(g.parent)
-		if g.attributes!=null:
-			for a in g.attributes.keys():
-				attributes[a]=current_state_object.attributes[a]
 	else:
-		attributes=g.attributes
-	if attributes==null:
-		return {}
-	else:
-		return attributes
+		attributes={}
+	if g.attributes!=null:
+		for a in g.attributes.keys():
+			attributes[a]=g.attributes[a]
+	return attributes
 
 func _rebuild_links():
 	links=[]

@@ -65,7 +65,19 @@ Code:
 ```python
 add_link(origin_state_name,destination_state_name,condition_type,parameters)
 ```
-
+here parameters are different regarding the condition type:
+* condition : 
+```python
+parameters = [condition_owner, condition_method, condition_arguments = [], condition_expected]
+```
+* timed_condition:
+```python
+params = [timeout, condition_owner, condition_method, condition_arguments = [], condition_expected, timer = null]
+```
+* timeout:
+```python
+params = [timeout, timer = null]
+```
 
 ## Examples
 

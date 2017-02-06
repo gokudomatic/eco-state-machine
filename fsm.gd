@@ -17,7 +17,8 @@ class Link:
 	var timer=null
 	var condition_owner=null
 	var condition_method=null
-	var condition_expected=true
+	var condition_arguments=[]
+	var condition_expected
 
 var timers={}
 var groups={}
@@ -47,7 +48,7 @@ func process(delta=0):
 				condition=state_time>link.timeout
 			found=true
 		if condition and (link.type=="condition" or link.type=="timed condition") and link.condition_owner.has_method(link.condition_method):
-			condition=condition and (link.condition_owner.callv(link.condition_method,[])==link.condition_expected)
+			condition=condition and (link.condition_owner.callv(link.condition_method,link.condition_arguments)==link.condition_expected)
 			found=true
 		if condition and found:
 			set_state(link.next_state)
@@ -134,20 +135,32 @@ func _add_link(instance,next_state,type,params):
 	if type=="condition":
 		link.condition_owner=params[0]
 		link.condition_method=params[1]
-		if params.size()>2:
+		if params.size()==3:
 			link.condition_expected=params[2]
+		elif params.size()==4:
+			link.condition_arguments=params[2]
+			link.condition_expected=params[3]
 	elif type=="timeout":
 		link.timeout=params[0]
-		if params.size()>1:
+		if params.size()==2:
 			link.timer=params[1]
 	elif type=="timed condition":
 		link.timeout=params[0]
 		link.condition_owner=params[1]
 		link.condition_method=params[2]
-		if params.size()>3:
+		if params.size()==4:
 			link.condition_expected=params[3]
-		if params.size()>4:
-			link.timer=params[4]
+		elif params.size()==5:
+			if typeof(params[3])==TYPE_ARRAY:
+				link.condition_arguments=params[3]
+				link.condition_expected=params[4]
+			else:
+				link.condition_expected=params[4]
+				link.timer=params[5]
+		elif params.size()==6:
+			link.condition_arguments=params[3]
+			link.condition_expected=params[4]
+			link.timer=params[5]
 	
 	if instance.links==null:
 		instance.links=[]

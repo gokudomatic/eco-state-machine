@@ -2,7 +2,7 @@
 Finite State Machine script for Godot Engine
 
 This component is a standalone script with no dependency. It is compatible with every Godot version that supports signals and vcall.
-It allows to make moderatly complex machines, with attributes, timers and groups. Conditions are custom defined with dynamic method calls. When a transition happens, wether it was manual or automatic, a signal is sent, which allows to execute code for specific transitions.
+It allows to make moderatly complex machines, with attributes, timers and groups. Conditions are custom defined with dynamic method calls. When a transition happens, whether it was manual or automatic, a signal is sent, which allows to execute code for specific transitions.
 
 The machine is not meant to be extended but rather instanciated. By itself it doesn't manage parallel state machines, but nothing prevents to set multiple machines and have a manager who make them communicate.
 
@@ -41,7 +41,7 @@ There a 2 kinds of timers: one automatically started when there's a change of st
 Custom timers can be used by states and groups by adding them in the links.
 Timers must be declared before they can be used.
 
-There isn't actually any timer created in this script. The method "process(delta)" simply add to every declared timer the delta time and evaluated all conditions of the current state. Delta is a float parameter in seconds, typically given by _process or _fixed_process. But delta can be 0 or any numeric value if you don't want to use the machine in a _process.
+There isn't actually any timer created in this script. The method "process(delta)" simply adds to every declared timer the delta time and evaluated all conditions of the current state. Delta is a float parameter in seconds, typically given by _process or _fixed_process. But delta can be 0 or any numeric value if you don't want to use the machine in a _process.
 
 Code:
 ```python
@@ -49,7 +49,7 @@ add_timer(timer_name)
 ```
 
 ## Conditional links
-This component features a state machine that can handle states and conditional links between them. It is possible to manually set a state or to let the machine determine is there's a state change (by calling its method "process(delta)").
+This component features a state machine that can handle states and conditional links between them. It is possible to manually set a state or to let the machine determine if there's a state change (by calling its method "process(delta)").
 If a condition is given, it can be of 2 kinds : 
 * condition : calls a method of a node and compare it with an expected value.
 * timeout : do the transition after a certain time.
@@ -59,7 +59,7 @@ and it is possible to combine a condition and a timer:
 It is possible to define multiple conditions for the same link, by simply adding more links between the same states. It will then act like a logical "OR".
 Timers are either the time passed since the last state change or a custom defined timer. 
 
-When a transition of a link happens, a signal "state_changed" is sent. It contains the informations about from which state to which state it moved. And a list of attributes is given in parameter too. This list is the concatenation of the attributes of the state and all imbricated groups the state belongs to. Since attributes are a dictionnary, each attribute has a name, and a state or subgroup can overwrite an attribute of a higher group. Attributes are however defined only once and they are constants.
+When a transition of a link happens, a signal "state_changed" is sent. It contains the information about from which state to which state it moved, and a list of attributes is given as parameters. This list is the concatenation of the attributes of the state and all imbricated groups the state belongs to. Since attributes are a dictionary, each attribute has a name, and a state or subgroup can overwrite an attribute of a higher group. Attributes are however defined only once and they are constants.
 
 Code:
 ```python
@@ -82,7 +82,7 @@ params = [timeout, timer = null]
 ## Examples
 
 ### Example 1
-Let's consider a simple case of 2 states "a" and "b", where the machine switch from one state to the other every 3 seconds.
+Let's consider a simple case of 2 states "a" and "b", where the machine switchs from one state to the other every 3 seconds.
 The code for the node that uses the machine would be like this:
 ```python
 extends Node
@@ -108,7 +108,7 @@ func on_state_changed(state_from,state_to,args):
 ```
 
 ### Example 2
-A simple quizz, where the machine is updated when the player enters an answer:
+A simple quiz, where the machine is updated when the player enters an answer:
 ![example 2](/eco-state-machine-example2.png)
 ```python
 extends Node
@@ -208,7 +208,7 @@ func on_state_changed(state_from,state_to,args):
 ```
 
 ### Example 4
-Turret bot, with a group and a timeout reset. The turret attacks target whenever it's in sight, and stops shooting after 5 seconds. The turret can be hit and be destroyed at any time. The turret shuts down automatically after 30 seconds.
+Turret bot, with a group and a timeout reset. The turret attacks target whenever it's in sight, and stops shooting after 5 seconds. The turret can be hit and destroyed at any time. The turret shuts down automatically after 30 seconds.
 
 ![example 4](/eco-state-machine-example4.png)
 

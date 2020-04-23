@@ -68,15 +68,31 @@ add_link(origin_state_name,destination_state_name,condition_type,parameters)
 here parameters are different regarding the condition type:
 * condition : 
 ```python
-parameters = [condition_owner, condition_method, condition_arguments = [], condition_expected]
+parameters = [condition_method_owner, condition_method, condition_arguments = [], condition_expected]
 ```
 * timed_condition:
 ```python
-params = [timeout, condition_owner, condition_method, condition_arguments = [], condition_expected, timer = null]
+params = [timeout, condition_method_owner, condition_method, condition_arguments = [], condition_expected, timer = null]
 ```
 * timeout:
 ```python
 params = [timeout, timer = null]
+```
+* random timeout:
+```python
+params = [[time_min,time_max]]
+```
+* signal:
+```python
+params = [signal_owner,signal]
+```
+* signal oneshot condition: (will not check in _process,just check once when signal is triggered)
+```python
+params = [signal_owner,signal,signal_param,condition_method_owner,condition_method,condition_arguments = [], condition_expected]
+```
+* signal condition:(will check in _process for many times when signal is triggered)
+```python
+params = [signal_owner,signal,signal_param,condition_method_owner,condition_method,condition_arguments = [], condition_expected]
 ```
 
 ## Examples
@@ -235,6 +251,91 @@ func _ready():
 func _process(delta):
     fsm.process(delta)
 
+...
+
+```
+
+### Example 5
+Basic Third Person Melee State Machine with STAND -> ROLL -> STAND,STAND -> JUMP ->STAND,STAND -> FIRE -> STAND,STAND -> BLOCK -> STAND,STAND -> SKILL -> STAND
+
+```python
+enum STATE_BASE{
+    STAND,
+    ROLL,
+    JUMP,
+    FIRE,
+    SKILL,
+    BLOCK,
+   }
+func init_fsm_base():
+    fsm_base=preload("res://Script/fsm.gd").new()
+    fsm_base.add_state(STATE_BASE.STAND)
+    fsm_base.add_state(STATE_BASE.ROLL)
+    fsm_base.add_state(STATE_BASE.JUMP)
+    fsm_base.add_state(STATE_BASE.FIRE)
+    fsm_base.add_state(STATE_BASE.SKILL)
+    fsm_base.add_state(STATE_BASE.BLOCK)
+    
+    
+    fsm_base.add_link(STATE_BASE.STAND,STATE_BASE.ROLL,"signal",[self,"roll"])
+    fsm_base.add_link(STATE_BASE.ROLL,STATE_BASE.STAND,"condition",[self,"fsm_roll_to_idle",STATE_BASE.STAND])
+    
+    fsm_base.add_link(STATE_BASE.STAND,STATE_BASE.JUMP,"signal",[self,"jump"])
+    fsm_base.add_link(STATE_BASE.JUMP,STATE_BASE.STAND,"condition",[self,"fsm_jump_to_idle",STATE_BASE.STAND])
+    
+    fsm_base.add_link(STATE_BASE.STAND,STATE_BASE.FIRE,"signal",[self,"fire"])
+    fsm_base.add_link(STATE_BASE.FIRE,STATE_BASE.STAND,"condition",[self,"fsm_fire_to_idle",STATE_BASE.STAND])
+    
+    #skill
+    fsm_base.add_link(STATE_BASE.STAND,STATE_BASE.SKILL,"signal",[self,"skill"])
+    fsm_base.add_link(STATE_BASE.SKILL,STATE_BASE.STAND,"condition",[self,"fsm_base_skill_to_idle",[ skill_index_ref],STATE_BASE.STAND])
+    
+    #block
+    fsm_base.add_link(STATE_BASE.STAND,STATE_BASE.BLOCK,"signal",[self,"block"])
+    fsm_base.add_link(STATE_BASE.BLOCK,STATE_BASE.STAND,"signal condition",[self,'block_end',null,self,"fsm_base_block_to_idle",STATE_BASE.STAND])
+    
+    fsm_base.set_state(STATE_BASE.STAND)
+    fsm_base.connect("state_changed",self,"on_state_base_changed")
+
+...
+
+```
+
+### Example 6
+Basic Third Person Shooter Aim State Machine
+
+```python
+enum STATE_AIM{
+    IDLE,
+    FIRE,
+    HOLD,#holding the weapon
+    TARGET,
+    TARGET_CONTTINUOUS,
+    SKILL,
+   }
+func init_fsm_aim():
+    fsm_aim=preload("res://Script/fsm.gd").new()
+    
+    fsm_aim.add_state(STATE_AIM.IDLE)
+    fsm_aim.add_state(STATE_AIM.FIRE)
+    fsm_aim.add_state(STATE_AIM.HOLD)
+    fsm_aim.add_state(STATE_AIM.TARGET_CONTTINUOUS)
+    fsm_aim.add_state(STATE_AIM.SKILL)
+    
+    #fire
+    fsm_aim.add_link(STATE_AIM.HOLD,STATE_AIM.FIRE,"signal oneshot condition",[self,"fire",null,self,"fsm_aim_to_fire",STATE_AIM.FIRE])
+    fsm_aim.add_link(STATE_AIM.FIRE,STATE_AIM.TARGET_CONTTINUOUS,"condition",[self,"_true",true])
+    fsm_aim.add_link(STATE_AIM.TARGET_CONTTINUOUS,STATE_AIM.FIRE,"signal oneshot condition",[self,"fire",null,self,"fsm_aim_to_fire",STATE_AIM.FIRE])
+    
+    #skill
+    fsm_aim.add_link(STATE_AIM.HOLD,STATE_AIM.SKILL,"signal oneshot condition",[self,"skill",null,self,"fsm_aim_to_skill",STATE_AIM.SKILL])
+    fsm_aim.add_link(STATE_AIM.SKILL,STATE_AIM.TARGET_CONTTINUOUS,"condition",[self,"_true",true])
+    fsm_aim.add_link(STATE_AIM.TARGET_CONTTINUOUS,STATE_AIM.SKILL,"signal oneshot condition",[self,"skill",null,self,"fsm_aim_to_skill",STATE_AIM.SKILL])
+    
+    fsm_aim.add_link(STATE_AIM.TARGET_CONTTINUOUS,STATE_AIM.HOLD,"signal",[fire_targeting_timer,"timeout"])
+    
+    fsm_aim.set_state(STATE_AIM.HOLD)
+    fsm_aim.connect("state_changed",self,"on_state_aim_changed")
 ...
 
 ```

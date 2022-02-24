@@ -107,7 +107,7 @@ func _on_state_changed(state_from,state_to,_args):
     print("switched to state ",state_to)
 ```
 
-### Example 2
+### Example 2 (FIXME: older Godot 3.x syntax)
 A simple quiz, where the machine is updated when the player enters an answer:
 ![example 2](/eco-state-machine-example2.png)
 ```gdscript
@@ -137,7 +137,7 @@ func on_state_changed(state_from,state_to,args):
         var score=1 # code to execute for the right answer
 
 ```
-### Example 3
+### Example 3 (FIXME: older Godot 3.x syntax)
 Example of a computer power management, slowly deactivating features and finally going to hibernation.
 ![example 3](/eco-state-machine-example3.png)
 ```gdscript
@@ -207,7 +207,7 @@ func on_state_changed(state_from,state_to,args):
 
 ```
 
-### Example 4
+### Example 4 (FIXME: older Godot 3.x syntax)
 Turret bot, with a group and a timeout reset. The turret attacks target whenever it's in sight, and stops shooting after 5 seconds. The turret can be hit and destroyed at any time. The turret shuts down automatically after 30 seconds.
 
 ![example 4](/eco-state-machine-example4.png)

@@ -81,7 +81,8 @@ params = [timeout, timer = null]
 
 ## Examples
 
-### Example 1
+### Example 1 (Newer Godot 4.x syntax)
+(Reference: https://godotengine.org/article/core-refactoring-progress-report-1)
 Let's consider a simple case of 2 states "a" and "b", where the machine switchs from one state to the other every 3 seconds.
 The code for the node that uses the machine would be like this:
 ```gdscript
@@ -107,7 +108,7 @@ func _on_state_changed(state_from,state_to,_args):
     print("switched to state ",state_to)
 ```
 
-### Example 2 (FIXME: older Godot 3.x syntax)
+### Example 2 (Older Godot 3.x syntax)
 A simple quiz, where the machine is updated when the player enters an answer:
 ![example 2](/eco-state-machine-example2.png)
 ```gdscript
@@ -137,7 +138,7 @@ func on_state_changed(state_from,state_to,args):
         var score=1 # code to execute for the right answer
 
 ```
-### Example 3 (FIXME: older Godot 3.x syntax)
+### Example 3 (Older Godot 3.x syntax)
 Example of a computer power management, slowly deactivating features and finally going to hibernation.
 ![example 3](/eco-state-machine-example3.png)
 ```gdscript
@@ -207,7 +208,7 @@ func on_state_changed(state_from,state_to,args):
 
 ```
 
-### Example 4 (FIXME: older Godot 3.x syntax)
+### Example 4 (Older Godot 3.x syntax)
 Turret bot, with a group and a timeout reset. The turret attacks target whenever it's in sight, and stops shooting after 5 seconds. The turret can be hit and destroyed at any time. The turret shuts down automatically after 30 seconds.
 
 ![example 4](/eco-state-machine-example4.png)

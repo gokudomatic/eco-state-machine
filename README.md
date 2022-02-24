@@ -83,6 +83,7 @@ params = [timeout, timer = null]
 
 ### Example 1 (Newer Godot 4.x syntax)
 (Reference: https://godotengine.org/article/core-refactoring-progress-report-1)
+
 Let's consider a simple case of 2 states "a" and "b", where the machine switchs from one state to the other every 3 seconds.
 The code for the node that uses the machine would be like this:
 ```gdscript

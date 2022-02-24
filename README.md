@@ -96,14 +96,14 @@ func _ready():
     fsm.add_link("a","b","timeout",[3])
     fsm.add_link("b","a","timeout",[3])
     fsm.set_state("a")
-    fsm.connect("state_changed",self,"on_state_changed")
+    fsm.state_changed.connect(self._on_state_changed)
     
     set_process(true)
 
 func _process(delta):
     fsm.process(delta)
 
-func on_state_changed(state_from,state_to,args):
+func _on_state_changed(state_from,state_to,args):
     print("switched to state ",state_to)
 ```
 

@@ -103,7 +103,7 @@ func _ready():
 func _process(delta):
     fsm.process(delta)
 
-func _on_state_changed(state_from,state_to,args):
+func _on_state_changed(state_from,state_to,_args):
     print("switched to state ",state_to)
 ```
 

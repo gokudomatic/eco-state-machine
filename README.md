@@ -17,7 +17,7 @@ States are merely objects with a name and attributes.
 They must be declared before making a link between them.
 
 Code:
-```python
+```gdscript
 add_state(state_name,attributes=null,parent_group_name=null)
 ```
 
@@ -28,7 +28,7 @@ Groups can have attributes like states.
 Groups must be declared before they can be used.
 
 Code:
-```python
+```gdscript
 add_group(group_name,attributes=null,parent_group=null)
 ```
 
@@ -44,7 +44,7 @@ Timers must be declared before they can be used.
 There isn't actually any timer created in this script. The method "process(delta)" simply adds to every declared timer the delta time and evaluated all conditions of the current state. Delta is a float parameter in seconds, typically given by _process or _fixed_process. But delta can be 0 or any numeric value if you don't want to use the machine in a _process.
 
 Code:
-```python
+```gdscript
 add_timer(timer_name)
 ```
 
@@ -62,20 +62,20 @@ Timers are either the time passed since the last state change or a custom define
 When a transition of a link happens, a signal "state_changed" is sent. It contains the information about from which state to which state it moved, and a list of attributes is given as parameters. This list is the concatenation of the attributes of the state and all imbricated groups the state belongs to. Since attributes are a dictionary, each attribute has a name, and a state or subgroup can overwrite an attribute of a higher group. Attributes are however defined only once and they are constants.
 
 Code:
-```python
+```gdscript
 add_link(origin_state_name,destination_state_name,condition_type,parameters)
 ```
 here parameters are different regarding the condition type:
 * condition : 
-```python
+```gdscript
 parameters = [condition_owner, condition_method, condition_arguments = [], condition_expected]
 ```
 * timed_condition:
-```python
+```gdscript
 params = [timeout, condition_owner, condition_method, condition_arguments = [], condition_expected, timer = null]
 ```
 * timeout:
-```python
+```gdscript
 params = [timeout, timer = null]
 ```
 
@@ -84,7 +84,7 @@ params = [timeout, timer = null]
 ### Example 1
 Let's consider a simple case of 2 states "a" and "b", where the machine switchs from one state to the other every 3 seconds.
 The code for the node that uses the machine would be like this:
-```python
+```gdscript
 extends Node
 
 var fsm
@@ -110,7 +110,7 @@ func on_state_changed(state_from,state_to,args):
 ### Example 2
 A simple quiz, where the machine is updated when the player enters an answer:
 ![example 2](/eco-state-machine-example2.png)
-```python
+```gdscript
 extends Node
 onready var fsm=preload("fsm.gd").new()
 var player_answer=""
@@ -140,7 +140,7 @@ func on_state_changed(state_from,state_to,args):
 ### Example 3
 Example of a computer power management, slowly deactivating features and finally going to hibernation.
 ![example 3](/eco-state-machine-example3.png)
-```python
+```gdscript
 extends Node
 onready var fsm=preload("fsm.gd").new()
 var battery_level=100
@@ -212,7 +212,7 @@ Turret bot, with a group and a timeout reset. The turret attacks target whenever
 
 ![example 4](/eco-state-machine-example4.png)
 
-```python
+```gdscript
 extends Node
 onready var fsm=preload("fsm.gd").new()
 
